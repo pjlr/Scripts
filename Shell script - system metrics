@@ -1,0 +1,66 @@
+#!/bin/bash
+ 
+# Calculate system metrics such as
+# load, memory, and storage.
+ 
+# Only allow root user to execute the script.
+if [ `whoami` == 'root' ]; then
+  printf "Allowed to execute.\n"
+else
+  printf "Access denied. Execute as Sudoer.\n"
+fi
+ 
+# Get 1 min, 5 min, and 15 min
+# system load average.
+# Defining function.
+function get_system_load() {
+  printf "Calculating system load...\n"
+  read -p "Enter time range for system load (1,5,15):" time_range
+  case $time_range in
+    1 )
+      output=$(cat /proc/loadavg | awk '{print $1}');
+      ;;
+    5 )
+      output=$(cat /proc/loadavg | awk '{print $2}');
+      ;;
+    15 )
+      output=$(cat /proc/loadavg | awk '{print $3}');
+      ;;
+    * )
+      printf "Invalid input.\n"
+  esac
+  printf "The system load average for $time_range minute is $output.\n"
+}
+ 
+# Get free, used, and available
+# system memory.
+function get_system_memory() {
+  printf "Calculating system memory...\n"
+}
+ 
+# Get free, used, and available
+# system storage.
+function get_system_storage() {
+  printf "Calculating system storage...\n"
+}
+ 
+# Calling function.
+# get_system_load
+ 
+# Calling functions based on CLI arguments.
+case $1 in
+  load )
+    get_system_load
+    ;;
+  memory )
+    get_system_memory
+    ;;
+  storage )
+    get_system_storage
+    ;;
+  * )
+    printf "Help: ./system-metric.sh {load|memory|storage}\n"
+    ;;
+esac
+
+has context menu
